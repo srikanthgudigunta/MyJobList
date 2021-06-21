@@ -28,7 +28,6 @@ export default class App extends Component {
     this.setState({
       isLoading: false,
       data: jobs
-      //showWebView : false,
     });
 
   }
