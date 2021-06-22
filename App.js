@@ -7,12 +7,13 @@ export default class App extends Component {
   state = {
     isLoading: true,
     data: [],
+    favorites: []
   };
   componentDidMount() {
     this.fetchData();
   }
 
-  fetchData = async () => {
+   fetchData = async () => {
     const response = await fetch(`https://hacker-news.firebaseio.com/v0/jobstories.json?print=pretty`);
     const json = await response.json();
     const jobactions = json.map(this.fetchJobData);
@@ -40,6 +41,25 @@ export default class App extends Component {
     console.log(json);
     return json;
   }
+
+  addToFavorites = (item) => {
+    const favorites = Object.assign([], this.state.favorites);
+    const index = favorites.findIndex(f => f.id === item.id);
+
+    if (index === -1) {
+        favorites.push(item);
+
+    } else {
+        favorites.splice(index, 1);
+
+    }
+    this.setState({
+        favorites
+    });
+
+}
+
+
   _renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => Linking.openURL(`${item.url}`)}>
       <View style={styles.mainCardView}>
